@@ -133,6 +133,8 @@ function landingPage(browserBound: boolean): string {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Webhands: computer-use agent for no-API tools</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2336d6c3'/%3E%3Cpath d='M16 8l2.2 5.8L24 16l-5.8 2.2L16 24l-2.2-5.8L8 16l5.8-2.2z' fill='%2308080a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>${LANDING_CSS}</style></head>
 <body><div class="glow"></div><main>
   <header>
@@ -179,7 +181,7 @@ function landingPage(browserBound: boolean): string {
 
 const LANDING_CSS = `
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#08080a;color:#ededf2;font:15px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:#08080a;color:#ededf2;font:15px/1.65 'Inter',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 .glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 55% at 70% -10%,rgba(6,182,212,.20),transparent 60%),radial-gradient(ellipse 50% 40% at 5% 5%,rgba(34,211,238,.10),transparent 55%)}
 main{position:relative;max-width:1000px;margin:0 auto;padding:36px 24px 64px;z-index:1}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
@@ -188,11 +190,11 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .status{display:inline-flex;align-items:center;gap:7px;border:1px solid #26262e;background:#111114;border-radius:999px;padding:5px 11px;font-size:11px;color:#8b8b96}
 .status i{width:7px;height:7px;border-radius:50%;background:#3fb950;box-shadow:0 0 8px #3fb950}
 .eyebrow{display:inline-block;border:1px solid #26262e;background:#111114;border-radius:999px;padding:4px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#8b8b96}
-h1{font-size:54px;line-height:1.04;letter-spacing:-.03em;margin:18px 0 16px;font-weight:700;max-width:780px}
+h1{font-size:56px;line-height:1.02;letter-spacing:-.035em;margin:18px 0 16px;font-weight:800;max-width:800px;background:linear-gradient(120deg,#fff,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lede{color:#8b8b96;max-width:580px;font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
-.card{border:1px solid #26262e;background:#111114;border-radius:18px;padding:18px;box-shadow:0 8px 24px -12px rgba(0,0,0,.6)}
+.card{border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(17,20,24,.9),rgba(17,17,20,.5));backdrop-filter:blur(12px);border-radius:20px;padding:20px;box-shadow:0 1px 0 0 rgba(255,255,255,.04) inset,0 16px 50px -22px rgba(0,0,0,.7);transition:.2s}.card:hover{border-color:rgba(34,211,238,.35);transform:translateY(-2px)}
 .card.wide{margin-top:12px}
 .card-head{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#8b8b96;margin-bottom:12px}
 .n{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#08080a;color:#22d3ee;font-weight:700;font-size:13px;margin-bottom:10px}
