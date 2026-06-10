@@ -186,20 +186,20 @@ function landingPage(browserBound: boolean): string {
     </div>
   </div>
   <div class="card wide">
-    <div class="card-head">Run a recipe</div>
-    <pre>curl $URL/run \\
-  -H "x-webhands-token: &lt;token&gt;" \\
-  -H "content-type: application/json" \\
-  -d '{"recipe":{"url":"https://seller.example.com/orders",
-       "extract":{"prompt":"orders as JSON [{id,total,status}]"}}}'</pre>
-  </div>
-  <div class="card wide">
     <div class="card-head">Generate a recipe with AI</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <input id="rgin" onkeydown="if(event.key==='Enter')rgen()" placeholder="Describe what to scrape, e.g. this week orders" style="flex:1;min-width:200px;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;color:#ededf2;font:inherit;font-size:13px"/>
       <button onclick="rgen()">Generate</button>
     </div>
     <pre id="rgout" class="out"></pre>
+  </div>
+  <div class="card wide">
+    <div class="card-head">Run a recipe</div>
+    <pre>curl $URL/run \\
+  -H "x-webhands-token: &lt;token&gt;" \\
+  -H "content-type: application/json" \\
+  -d '{"recipe":{"url":"https://seller.example.com/orders",
+       "extract":{"prompt":"orders as JSON [{id,total,status}]"}}}'</pre>
   </div>
   <div class="card wide">
     <div class="card-head">Try it live</div>
