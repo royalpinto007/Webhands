@@ -169,7 +169,7 @@ function landingPage(browserBound: boolean): string {
 <style>${LANDING_CSS}</style></head>
 <body><div class="glow"></div><main>
   <header>
-    <div class="logo"><span class="mark">✦</span> webhands</div>
+    <div class="logo"><span class="mark">✦</span> Webhands</div>
     <span class="status"><i></i> ${browserBound ? "browser live" : "dry mode"}</span>
   </header>
   <span class="eyebrow">computer-use</span>
@@ -194,6 +194,14 @@ function landingPage(browserBound: boolean): string {
        "extract":{"prompt":"orders as JSON [{id,total,status}]"}}}'</pre>
   </div>
   <div class="card wide">
+    <div class="card-head">Generate a recipe with AI</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input id="rgin" placeholder="Describe what to scrape, e.g. this week's orders" style="flex:1;min-width:200px;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;color:#ededf2;font:inherit;font-size:13px"/>
+      <button onclick="rgen()">Generate</button>
+    </div>
+    <pre id="rgout" class="out"></pre>
+  </div>
+  <div class="card wide">
     <div class="card-head">Try it live</div>
     <button onclick="wh()">▶ Run a live scrape</button>
     <p class="hint">Drives a real headless browser against example.com and returns the extracted data plus a screenshot of what it saw.</p>
@@ -211,11 +219,12 @@ function landingPage(browserBound: boolean): string {
         if(j.screenshotBase64){ shot.src='data:image/png;base64,'+j.screenshotBase64; }
       }catch(e){ out.textContent='Error: '+e.message; }
     }
+    async function rgen(){var i=document.getElementById('rgin'),o=document.getElementById('rgout');var q=i.value.trim()||"this week's orders from the seller dashboard";o.textContent='Generating recipe…';try{var r=await fetch('/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt:'Output ONLY a Webhands recipe as compact JSON with keys url, steps (array of {action,...}), and extract. No prose, no markdown fences. Task: '+q})});var d=await r.json();o.textContent=d.reply||('Unavailable ('+(d.error||'?')+')');}catch(e){o.textContent='Error: '+e.message;}}
     async function cask(e){e.preventDefault();var i=document.getElementById('cin'),m=document.getElementById('cmsgs');var q=i.value.trim();if(!q)return false;i.value='';var u=document.createElement('div');u.className='cm u';u.textContent=q;m.appendChild(u);var t=document.createElement('div');t.className='cm a';t.textContent='thinking…';m.appendChild(t);m.scrollTop=m.scrollHeight;try{var r=await fetch('/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt:q})});var d=await r.json();t.textContent=d.reply||('Unavailable ('+(d.error||'?')+')');}catch(err){t.textContent='Network error.';}m.scrollTop=m.scrollHeight;return false;}
   </script>
   <button class="chatbtn" onclick="document.getElementById('cbox').classList.toggle('open')">✦</button>
   <div class="chatbox" id="cbox">
-    <div class="chathead">Webhands assistant <span style="color:#8b8b96;font-weight:400">· llama3.2</span></div>
+    <div class="chathead">Webhands assistant</div>
     <div class="chatmsgs" id="cmsgs"><div class="cm a">Ask me about Webhands, recipes, or how the confirm gate works.</div></div>
     <form class="chatform" onsubmit="return cask(event)"><input id="cin" placeholder="Ask about Webhands…" autocomplete="off"/><button>Send</button></form>
   </div>
