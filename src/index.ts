@@ -73,6 +73,23 @@ async function logRun(
         confirmed: !!req.confirm,
       }),
     });
+    // Keep the run log bounded for the demo (newest 150 rows).
+    const h = {
+      apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+      authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+    };
+    const r = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/wh_runs?select=created_at&order=created_at.desc&offset=150&limit=1`,
+      { headers: h },
+    );
+    const rows = (await r.json()) as { created_at: string }[];
+    const cutoff = rows?.[0]?.created_at;
+    if (cutoff) {
+      await fetch(
+        `${env.SUPABASE_URL}/rest/v1/wh_runs?created_at=lt.${encodeURIComponent(cutoff)}`,
+        { method: "DELETE", headers: { ...h, prefer: "return=minimal" } },
+      );
+    }
   } catch (e) {
     console.error("[webhands] run log failed:", (e as Error).message);
   }
