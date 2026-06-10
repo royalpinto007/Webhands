@@ -145,12 +145,14 @@ function landingPage(browserBound: boolean): string {
   <h1>No API? <br>Now there's an agent.</h1>
   <p class="lede">Webhands drives the dashboards that have no usable API, TikTok Shop seller center, supplier and 3PL portals, in a real headless browser. It logs in, navigates, returns clean structured data with a screenshot, and refuses any write until you confirm it.</p>
   <div class="card">
-    <div class="card-head">How it works <span class="runtag"><i></i> running</span></div>
-    <div class="flow"><div class="ftrack"></div><div class="fnodes">
-      <div class="fnode"><div class="fico" style="animation-delay:0s">1</div><div class="t">Define a recipe</div><div class="d">Entry URL, navigation steps, and what to extract.</div></div>
-      <div class="fnode"><div class="fico" style="animation-delay:.93s">2</div><div class="t">Operate the UI</div><div class="d">A headless browser runs the steps for real.</div></div>
-      <div class="fnode"><div class="fico" style="animation-delay:1.86s">3</div><div class="t">Data + screenshot</div><div class="d">Structured JSON and proof; writes stay gated.</div></div>
-    </div></div>
+    <div class="card-head">Live capture <span class="runtag"><i></i> scanning</span></div>
+    <div class="browser">
+      <div class="bbar"><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="burl">seller.example.com/orders</span></div>
+      <div class="bbody">
+        <div class="brow"></div><div class="brow s"></div><div class="brow"></div><div class="brow s"></div><div class="brow"></div><div class="brow s"></div>
+        <div class="scan"></div>
+      </div>
+    </div>
   </div>
   <div class="card wide">
     <div class="card-head">Run a recipe</div>
@@ -229,6 +231,15 @@ button:hover{opacity:.9}
 .fico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:700;margin:0 auto 10px;animation:fpulse 2.8s ease-in-out infinite}
 @media(min-width:640px){.fico{margin:0 0 10px}}
 @keyframes fpulse{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0)}50%{box-shadow:0 0 0 6px rgba(34,211,238,.18)}}
+.browser{border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;background:#0c0e12}
+.bbar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
+.bdot{width:9px;height:9px;border-radius:50%;background:#3a3f47}
+.burl{margin-left:8px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#8b8b96}
+.bbody{position:relative;padding:16px;display:flex;flex-direction:column;gap:11px;min-height:176px;overflow:hidden}
+.brow{height:11px;border-radius:5px;background:rgba(255,255,255,.07);width:88%}
+.brow.s{background:rgba(34,211,238,.22);width:56%}
+.scan{position:absolute;left:0;right:0;height:52px;top:-52px;background:linear-gradient(180deg,transparent,rgba(34,211,238,.22),transparent);box-shadow:0 0 18px rgba(34,211,238,.25);animation:scan 3s ease-in-out infinite}
+@keyframes scan{0%{top:-52px}100%{top:100%}}
 @media (prefers-color-scheme: light){
   body{background:#fafafc;color:#12141b}
   .status,.eyebrow,.card{background:#fff;border-color:#e2e4e9}
