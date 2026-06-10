@@ -38,7 +38,18 @@ export async function runRecipe(
   }
 
   const log: string[] = [];
-  const browser = await puppeteer.launch(env.BROWSER);
+  let browser;
+  try {
+    browser = await puppeteer.launch(env.BROWSER);
+  } catch (e) {
+    // Browser Rendering not provisioned / over quota — degrade instead of crash.
+    return {
+      ok: false,
+      mode: "live",
+      steps: [],
+      error: `browser unavailable: ${(e as Error).message}`,
+    };
+  }
   try {
     const page = await browser.newPage();
     await page.goto(recipe.url, { waitUntil: "networkidle0" });
@@ -88,7 +99,7 @@ export async function runRecipe(
       error: (e as Error).message,
     };
   } finally {
-    await browser.close();
+    if (browser) await browser.close();
   }
 }
 
