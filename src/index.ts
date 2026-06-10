@@ -19,6 +19,25 @@ export default {
       });
     }
 
+    // Public demo, no token. Runs one fixed, safe scrape so a website visitor
+    // can see a real browser run (and screenshot) without credentials.
+    if (url.pathname === "/demo") {
+      const demoReq = {
+        recipe: {
+          url: "https://example.com",
+          extract: {
+            fields: [
+              { name: "heading", selector: "h1" },
+              { name: "paragraph", selector: "p" },
+            ],
+          },
+        },
+      };
+      const result = await runRecipe(env, demoReq);
+      await logRun(env, demoReq, result);
+      return json(result, result.ok ? 200 : 400);
+    }
+
     if (req.method !== "POST" || url.pathname !== "/run") {
       return json({ error: "POST /run" }, 404);
     }
@@ -136,7 +155,25 @@ function landingPage(browserBound: boolean): string {
   -d '{"recipe":{"url":"https://seller.example.com/orders",
        "extract":{"prompt":"orders as JSON [{id,total,status}]"}}}'</pre>
   </div>
+  <div class="card wide">
+    <div class="card-head">Try it live</div>
+    <button onclick="wh()">▶ Run a live scrape</button>
+    <p class="hint">Drives a real headless browser against example.com and returns the extracted data plus a screenshot of what it saw.</p>
+    <pre id="out" class="out"></pre>
+    <img id="shot" alt="" />
+  </div>
   <footer>Cloudflare Browser Rendering · screenshot proof · confirm-gated writes · <a href="/info">/info</a></footer>
+  <script>
+    async function wh(){
+      var out=document.getElementById('out'), shot=document.getElementById('shot');
+      out.textContent='Launching browser and scraping example.com …'; shot.removeAttribute('src');
+      try{
+        var r=await fetch('/demo',{method:'POST'}); var j=await r.json();
+        out.textContent='Extracted: '+JSON.stringify(j.data)+'\\nSteps: '+(j.steps||[]).join(' → ');
+        if(j.screenshotBase64){ shot.src='data:image/png;base64,'+j.screenshotBase64; }
+      }catch(e){ out.textContent='Error: '+e.message; }
+    }
+  </script>
 </main></body></html>`;
 }
 
@@ -165,6 +202,13 @@ h1{font-size:38px;line-height:1.1;letter-spacing:-.02em;margin:16px 0 14px;font-
 pre{background:#08080a;border-radius:12px;padding:14px;overflow-x:auto;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#8b8b96;line-height:1.6}
 footer{margin-top:34px;color:#8b8b96;font-size:12.5px}
 a{color:#6e8bff;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:linear-gradient(135deg,#6e8bff,#36d6c3);color:#08080a;font-weight:600;border-radius:10px;padding:9px 14px;font-size:13px;transition:.15s}
+button:hover{opacity:.9}
+.hint{color:#8b8b96;font-size:12.5px;margin:10px 0 0}
+.out{min-height:20px;white-space:pre-wrap;margin-top:12px}
+.out:empty{display:none}
+#shot{display:block;max-width:100%;margin-top:12px;border-radius:10px;border:1px solid #26262e}
+#shot:not([src]){display:none}
 @media (prefers-color-scheme: light){
   body{background:#fafafc;color:#12141b}
   .status,.eyebrow,.card{background:#fff;border-color:#e2e4e9}
