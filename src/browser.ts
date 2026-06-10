@@ -42,7 +42,7 @@ export async function runRecipe(
   try {
     browser = await puppeteer.launch(env.BROWSER);
   } catch (e) {
-    // Browser Rendering not provisioned / over quota — degrade instead of crash.
+    // Browser Rendering not provisioned / over quota, degrade instead of crash.
     return {
       ok: false,
       mode: "live",

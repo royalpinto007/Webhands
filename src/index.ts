@@ -95,7 +95,8 @@ function html(body: string, status = 200): Response {
 function landingPage(browserBound: boolean): string {
   return `<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Webhands — computer-use agent for no-API tools</title>
+<title>Webhands: computer-use agent for no-API tools</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2336d6c3'/%3E%3Cpath d='M16 8l2.2 5.8L24 16l-5.8 2.2L16 24l-2.2-5.8L8 16l5.8-2.2z' fill='%2308080a'/%3E%3C/svg%3E">
 <style>${LANDING_CSS}</style></head>
 <body><div class="glow"></div><main>
   <header>
@@ -147,4 +148,12 @@ h1{font-size:38px;line-height:1.1;letter-spacing:-.02em;margin:16px 0 14px;font-
 pre{background:#08080a;border-radius:12px;padding:14px;overflow-x:auto;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#8b8b96;line-height:1.6}
 footer{margin-top:34px;color:#8b8b96;font-size:12.5px}
 a{color:#6e8bff;text-decoration:none}
+@media (prefers-color-scheme: light){
+  body{background:#fafafc;color:#12141b}
+  .status,.eyebrow,.card{background:#fff;border-color:#e2e4e9}
+  .status,.eyebrow,.lede,.d,footer,pre{color:#5f626e}
+  .t{color:#12141b}
+  pre,.n{background:#f3f4f6}
+  .glow{background:radial-gradient(ellipse 70% 40% at 50% -8%,rgba(79,102,241,.10),transparent 60%)}
+}
 `;

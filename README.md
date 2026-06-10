@@ -12,10 +12,10 @@ write action unless you explicitly confirm it.
 You POST a **recipe**: an entry URL, optional login/navigation steps, and an
 extraction spec. Webhands runs it in a headless browser and returns:
 
-- `data` — structured JSON (scraped from CSS selectors, or extracted from the
+- `data`, structured JSON (scraped from CSS selectors, or extracted from the
   page text by Claude when you give a natural-language `extract.prompt`)
-- `screenshotBase64` — proof of what it saw
-- `steps` — the actions it took
+- `screenshotBase64`, proof of what it saw
+- `steps`, the actions it took
 
 Any step marked `write: true` (e.g. clicking "Issue refund") is **refused unless
 the request includes `confirm: true`**, so reads are safe by default and writes
@@ -23,9 +23,9 @@ are deliberate.
 
 ## Modes
 
-- **live** — when the `BROWSER` binding is present (Workers plan with Browser
+- **live**, when the `BROWSER` binding is present (Workers plan with Browser
   Rendering enabled).
-- **dry** — without the binding, returns the plan it *would* run. Lets you build
+- **dry**, without the binding, returns the plan it *would* run. Lets you build
   and test recipes without a paid binding.
 
 ## Run
