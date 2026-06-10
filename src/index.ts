@@ -180,29 +180,29 @@ function landingPage(browserBound: boolean): string {
 const LANDING_CSS = `
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#08080a;color:#ededf2;font:15px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 40% at 50% -8%,rgba(110,139,255,.16),transparent 60%),radial-gradient(ellipse 50% 30% at 90% 0,rgba(54,214,195,.09),transparent 55%)}
-main{position:relative;max-width:760px;margin:0 auto;padding:32px 22px 60px;z-index:1}
+.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 55% at 70% -10%,rgba(6,182,212,.20),transparent 60%),radial-gradient(ellipse 50% 40% at 5% 5%,rgba(34,211,238,.10),transparent 55%)}
+main{position:relative;max-width:1000px;margin:0 auto;padding:36px 24px 64px;z-index:1}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
-.mark{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#6e8bff,#36d6c3);color:#08080a;font-weight:800}
+.mark{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:800}
 .status{display:inline-flex;align-items:center;gap:7px;border:1px solid #26262e;background:#111114;border-radius:999px;padding:5px 11px;font-size:11px;color:#8b8b96}
 .status i{width:7px;height:7px;border-radius:50%;background:#3fb950;box-shadow:0 0 8px #3fb950}
 .eyebrow{display:inline-block;border:1px solid #26262e;background:#111114;border-radius:999px;padding:4px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#8b8b96}
-h1{font-size:38px;line-height:1.1;letter-spacing:-.02em;margin:16px 0 14px;font-weight:650}
+h1{font-size:54px;line-height:1.04;letter-spacing:-.03em;margin:18px 0 16px;font-weight:700;max-width:780px}
 .lede{color:#8b8b96;max-width:580px;font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
-@media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:30px}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
 .card{border:1px solid #26262e;background:#111114;border-radius:18px;padding:18px;box-shadow:0 8px 24px -12px rgba(0,0,0,.6)}
 .card.wide{margin-top:12px}
 .card-head{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#8b8b96;margin-bottom:12px}
-.n{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:#08080a;color:#6e8bff;font-weight:700;font-size:13px;margin-bottom:10px}
+.n{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#08080a;color:#22d3ee;font-weight:700;font-size:13px;margin-bottom:10px}
 .t{font-weight:600;margin-bottom:4px;font-size:14px}
 .d{color:#8b8b96;font-size:13px}
 .mono{font-family:ui-monospace,Menlo,monospace}
 pre{background:#08080a;border-radius:12px;padding:14px;overflow-x:auto;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#8b8b96;line-height:1.6}
 footer{margin-top:34px;color:#8b8b96;font-size:12.5px}
-a{color:#6e8bff;text-decoration:none}
-button{font:inherit;cursor:pointer;border:none;background:linear-gradient(135deg,#6e8bff,#36d6c3);color:#08080a;font-weight:600;border-radius:10px;padding:9px 14px;font-size:13px;transition:.15s}
+a{color:#22d3ee;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:700;border-radius:10px;padding:11px 18px;font-size:14px;transition:.15s}
 button:hover{opacity:.9}
 .hint{color:#8b8b96;font-size:12.5px;margin:10px 0 0}
 .out{min-height:20px;white-space:pre-wrap;margin-top:12px}
