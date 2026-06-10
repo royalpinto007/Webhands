@@ -132,7 +132,7 @@ function landingPage(browserBound: boolean): string {
   return `<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Webhands: computer-use agent for no-API tools</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2336d6c3'/%3E%3Cpath d='M16 8l2.2 5.8L24 16l-5.8 2.2L16 24l-2.2-5.8L8 16l5.8-2.2z' fill='%2308080a'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2322d3ee'/%3E%3Cpath d='M16 8l2.2 5.8L24 16l-5.8 2.2L16 24l-2.2-5.8L8 16l5.8-2.2z' fill='%2308080a'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>${LANDING_CSS}</style></head>
@@ -144,10 +144,13 @@ function landingPage(browserBound: boolean): string {
   <span class="eyebrow">computer-use</span>
   <h1>No API? <br>Now there's an agent.</h1>
   <p class="lede">Webhands drives the dashboards that have no usable API, TikTok Shop seller center, supplier and 3PL portals, in a real headless browser. It logs in, navigates, returns clean structured data with a screenshot, and refuses any write until you confirm it.</p>
-  <div class="grid">
-    <div class="card"><div class="n">1</div><div class="t">Define a recipe</div><div class="d">Entry URL, login + navigation steps, and what to extract (CSS fields or a natural-language ask).</div></div>
-    <div class="card"><div class="n">2</div><div class="t">It operates the UI</div><div class="d">A headless browser runs the steps and hands back structured JSON plus a screenshot of what it saw.</div></div>
-    <div class="card"><div class="n">3</div><div class="t">Writes are gated</div><div class="d">Any step that mutates state is refused unless the request carries <span class="mono">confirm:true</span>.</div></div>
+  <div class="card">
+    <div class="card-head">How it works <span class="runtag"><i></i> running</span></div>
+    <div class="flow"><div class="ftrack"></div><div class="fnodes">
+      <div class="fnode"><div class="fico" style="animation-delay:0s">1</div><div class="t">Define a recipe</div><div class="d">Entry URL, navigation steps, and what to extract.</div></div>
+      <div class="fnode"><div class="fico" style="animation-delay:.93s">2</div><div class="t">Operate the UI</div><div class="d">A headless browser runs the steps for real.</div></div>
+      <div class="fnode"><div class="fico" style="animation-delay:1.86s">3</div><div class="t">Data + screenshot</div><div class="d">Structured JSON and proof; writes stay gated.</div></div>
+    </div></div>
   </div>
   <div class="card wide">
     <div class="card-head">Run a recipe</div>
@@ -211,6 +214,21 @@ button:hover{opacity:.9}
 .out:empty{display:none}
 #shot{display:block;max-width:100%;margin-top:12px;border-radius:10px;border:1px solid #26262e}
 #shot:not([src]){display:none}
+.runtag{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:#22d3ee;background:rgba(34,211,238,.12);border-radius:999px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+.runtag i{width:6px;height:6px;border-radius:50%;background:#22d3ee;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+.flow{position:relative;margin-top:4px}
+.ftrack{position:absolute;left:8%;right:8%;top:21px;height:2px;background:#26262e;border-radius:2px;overflow:hidden;display:none}
+@media(min-width:640px){.ftrack{display:block}}
+.ftrack::before{content:"";position:absolute;top:-1px;height:4px;width:24%;border-radius:4px;background:linear-gradient(90deg,transparent,#22d3ee,transparent);animation:ftravel 2.8s linear infinite}
+@keyframes ftravel{0%{left:-24%}100%{left:100%}}
+.fnodes{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:640px){.fnodes{grid-template-columns:1fr}}
+.fnode{text-align:center}
+@media(min-width:640px){.fnode{text-align:left}}
+.fico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:700;margin:0 auto 10px;animation:fpulse 2.8s ease-in-out infinite}
+@media(min-width:640px){.fico{margin:0 0 10px}}
+@keyframes fpulse{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0)}50%{box-shadow:0 0 0 6px rgba(34,211,238,.18)}}
 @media (prefers-color-scheme: light){
   body{background:#fafafc;color:#12141b}
   .status,.eyebrow,.card{background:#fff;border-color:#e2e4e9}
