@@ -38,6 +38,10 @@ export default {
       return json(result, result.ok ? 200 : 400);
     }
 
+    if (req.method === "POST" && url.pathname === "/ai") {
+      return aiChat(req, env);
+    }
+
     if (req.method !== "POST" || url.pathname !== "/run") {
       return json({ error: "POST /run" }, 404);
     }
@@ -114,6 +118,33 @@ async function logRun(
   }
 }
 
+const AI_SYSTEM =
+  "You are the assistant for Webhands, a computer-use agent for tools that have " +
+  "no usable API. It drives a real headless browser through a recipe (login, " +
+  "navigate, extract), returns structured data plus a screenshot, and refuses " +
+  "any write step unless confirm:true is set. Answer questions about Webhands " +
+  "and browser automation concisely, in 1-4 short sentences.";
+
+async function aiChat(req: Request, env: Env): Promise<Response> {
+  const { prompt } = (await req.json().catch(() => ({}))) as { prompt?: string };
+  if (!prompt) return json({ error: "prompt required" }, 400);
+  if (!env.AI_GATEWAY_SECRET) return json({ error: "AI not configured" }, 503);
+  try {
+    const r = await fetch("https://n8n.agentpostmortem.com/webhook/ai-gw", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-ai-secret": env.AI_GATEWAY_SECRET,
+      },
+      body: JSON.stringify({ system: AI_SYSTEM, prompt: String(prompt).slice(0, 2000), max: 240 }),
+    });
+    const d = (await r.json()) as { reply?: string; error?: string };
+    return json({ reply: d.reply || "", error: d.error });
+  } catch {
+    return json({ error: "AI upstream unreachable" }, 502);
+  }
+}
+
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -180,7 +211,14 @@ function landingPage(browserBound: boolean): string {
         if(j.screenshotBase64){ shot.src='data:image/png;base64,'+j.screenshotBase64; }
       }catch(e){ out.textContent='Error: '+e.message; }
     }
+    async function cask(e){e.preventDefault();var i=document.getElementById('cin'),m=document.getElementById('cmsgs');var q=i.value.trim();if(!q)return false;i.value='';var u=document.createElement('div');u.className='cm u';u.textContent=q;m.appendChild(u);var t=document.createElement('div');t.className='cm a';t.textContent='thinking…';m.appendChild(t);m.scrollTop=m.scrollHeight;try{var r=await fetch('/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt:q})});var d=await r.json();t.textContent=d.reply||('Unavailable ('+(d.error||'?')+')');}catch(err){t.textContent='Network error.';}m.scrollTop=m.scrollHeight;return false;}
   </script>
+  <button class="chatbtn" onclick="document.getElementById('cbox').classList.toggle('open')">✦</button>
+  <div class="chatbox" id="cbox">
+    <div class="chathead">Webhands assistant <span style="color:#8b8b96;font-weight:400">· llama3.2</span></div>
+    <div class="chatmsgs" id="cmsgs"><div class="cm a">Ask me about Webhands, recipes, or how the confirm gate works.</div></div>
+    <form class="chatform" onsubmit="return cask(event)"><input id="cin" placeholder="Ask about Webhands…" autocomplete="off"/><button>Send</button></form>
+  </div>
 </main></body></html>`;
 }
 
@@ -240,6 +278,17 @@ button:hover{opacity:.9}
 .brow.s{background:rgba(34,211,238,.22);width:56%}
 .scan{position:absolute;left:0;right:0;height:52px;top:-52px;background:linear-gradient(180deg,transparent,rgba(34,211,238,.22),transparent);box-shadow:0 0 18px rgba(34,211,238,.25);animation:scan 3s ease-in-out infinite}
 @keyframes scan{0%{top:-52px}100%{top:100%}}
+.chatbtn{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-size:20px;box-shadow:0 10px 30px -8px rgba(34,211,238,.5);z-index:50}
+.chatbox{position:fixed;bottom:82px;right:20px;width:min(92vw,360px);height:440px;display:none;flex-direction:column;background:#0d1417;border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;z-index:50;box-shadow:0 20px 60px -20px rgba(0,0,0,.8)}
+.chatbox.open{display:flex}
+.chathead{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px;font-weight:600}
+.chatmsgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.cm{max-width:82%;padding:8px 11px;border-radius:14px;font-size:13px;line-height:1.5}
+.cm.u{align-self:flex-end;background:rgba(34,211,238,.18)}
+.cm.a{align-self:flex-start;background:rgba(255,255,255,.05)}
+.chatform{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.08)}
+.chatform input{flex:1;min-width:0;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:8px 10px;color:#ededf2;font:inherit;font-size:13px}
+.chatform button{border:none;border-radius:9px;padding:0 13px;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:700;cursor:pointer}
 @media (prefers-color-scheme: light){
   body{background:#fafafc;color:#12141b}
   .status,.eyebrow,.card{background:#fff;border-color:#e2e4e9}
