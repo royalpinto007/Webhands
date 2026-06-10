@@ -126,7 +126,7 @@ const AI_SYSTEM =
   "and browser automation concisely, in 1-4 short sentences.";
 
 async function aiChat(req: Request, env: Env): Promise<Response> {
-  const { prompt } = (await req.json().catch(() => ({}))) as { prompt?: string };
+  const { prompt, max } = (await req.json().catch(() => ({}))) as { prompt?: string; max?: number };
   if (!prompt) return json({ error: "prompt required" }, 400);
   if (!env.AI_GATEWAY_SECRET) return json({ error: "AI not configured" }, 503);
   try {
@@ -136,7 +136,7 @@ async function aiChat(req: Request, env: Env): Promise<Response> {
         "content-type": "application/json",
         "x-ai-secret": env.AI_GATEWAY_SECRET,
       },
-      body: JSON.stringify({ system: AI_SYSTEM, prompt: String(prompt).slice(0, 2000), max: 240 }),
+      body: JSON.stringify({ system: AI_SYSTEM, prompt: String(prompt).slice(0, 2000), max: typeof max === "number" ? max : undefined }),
     });
     const d = (await r.json()) as { reply?: string; error?: string };
     return json({ reply: d.reply || "", error: d.error });
@@ -196,7 +196,7 @@ function landingPage(browserBound: boolean): string {
   <div class="card wide">
     <div class="card-head">Generate a recipe with AI</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <input id="rgin" placeholder="Describe what to scrape, e.g. this week's orders" style="flex:1;min-width:200px;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;color:#ededf2;font:inherit;font-size:13px"/>
+      <input id="rgin" onkeydown="if(event.key==='Enter')rgen()" placeholder="Describe what to scrape, e.g. this week orders" style="flex:1;min-width:200px;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;color:#ededf2;font:inherit;font-size:13px"/>
       <button onclick="rgen()">Generate</button>
     </div>
     <pre id="rgout" class="out"></pre>
@@ -219,7 +219,7 @@ function landingPage(browserBound: boolean): string {
         if(j.screenshotBase64){ shot.src='data:image/png;base64,'+j.screenshotBase64; }
       }catch(e){ out.textContent='Error: '+e.message; }
     }
-    async function rgen(){var i=document.getElementById('rgin'),o=document.getElementById('rgout');var q=i.value.trim()||"this week's orders from the seller dashboard";o.textContent='Generating recipe…';try{var r=await fetch('/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt:'Output ONLY a Webhands recipe as compact JSON with keys url, steps (array of {action,...}), and extract. No prose, no markdown fences. Task: '+q})});var d=await r.json();o.textContent=d.reply||('Unavailable ('+(d.error||'?')+')');}catch(e){o.textContent='Error: '+e.message;}}
+    async function rgen(){var i=document.getElementById('rgin'),o=document.getElementById('rgout');var q=i.value.trim()||"this week's orders from the seller dashboard";o.textContent='Generating recipe…';try{var r=await fetch('/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt:'Output ONLY a Webhands recipe as compact JSON with keys url, steps (array of {action,...}), and extract. No prose, no markdown fences. Task: '+q,max:240})});var d=await r.json();o.textContent=d.reply||('Unavailable ('+(d.error||'?')+')');}catch(e){o.textContent='Error: '+e.message;}}
     async function cask(e){e.preventDefault();var i=document.getElementById('cin'),m=document.getElementById('cmsgs');var q=i.value.trim();if(!q)return false;i.value='';var u=document.createElement('div');u.className='cm u';u.textContent=q;m.appendChild(u);var t=document.createElement('div');t.className='cm a';t.textContent='thinking…';m.appendChild(t);m.scrollTop=m.scrollHeight;try{var r=await fetch('/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt:q})});var d=await r.json();t.textContent=d.reply||('Unavailable ('+(d.error||'?')+')');}catch(err){t.textContent='Network error.';}m.scrollTop=m.scrollHeight;return false;}
   </script>
   <button class="chatbtn" onclick="document.getElementById('cbox').classList.toggle('open')">✦</button>
