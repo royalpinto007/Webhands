@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "webhands",
+  "account_id": "a97af859ae0c177338e4df0b1d640176",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  // Cloudflare Browser Rendering. Requires a Workers plan with Browser Rendering
+  // enabled. Without this binding, Webhands runs in dry mode (sample data).
+  "browser": { "binding": "BROWSER" }
+  // Secrets (wrangler secret put):
+  //   WEBHANDS_TOKEN              -> caller auth
+  //   ANTHROPIC_API_KEY          -> optional, page -> structured extraction
+  //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY -> optional run log
+}
