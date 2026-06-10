@@ -208,7 +208,7 @@ function landingPage(browserBound: boolean): string {
     <pre id="out" class="out"></pre>
     <img id="shot" alt="" />
   </div>
-  <footer>Cloudflare Browser Rendering · screenshot proof · confirm-gated writes · <a href="/info">/info</a></footer>
+  <footer>Real browser · screenshot proof · gated writes · <a href="/info">/info</a></footer>
   <script>
     async function wh(){
       var out=document.getElementById('out'), shot=document.getElementById('shot');
@@ -233,7 +233,7 @@ function landingPage(browserBound: boolean): string {
 
 const LANDING_CSS = `
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#08080a;color:#ededf2;font:15px/1.65 'Inter',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:#08080a;color:#ededf2;font:15px/1.65 'Inter',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
 .glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 55% at 70% -10%,rgba(6,182,212,.20),transparent 60%),radial-gradient(ellipse 50% 40% at 5% 5%,rgba(34,211,238,.10),transparent 55%)}
 main{position:relative;max-width:1000px;margin:0 auto;padding:36px 24px 64px;z-index:1}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
