@@ -8,13 +8,13 @@ export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
 
-    if (req.method === "GET" && url.pathname === "/") {
+    if ((req.method === "GET" || req.method === "HEAD") && url.pathname === "/") {
       return html(landingPage(!!env.BROWSER));
     }
     if ((req.method === "GET" || req.method === "HEAD") && url.pathname === "/icon.svg") {
       return svg(WEBHANDS_ICON);
     }
-    if (req.method === "GET" && url.pathname === "/info") {
+    if ((req.method === "GET" || req.method === "HEAD") && url.pathname === "/info") {
       return json({
         service: "webhands",
         browser: env.BROWSER ? "bound" : "dry-mode",
