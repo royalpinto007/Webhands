@@ -11,6 +11,9 @@ export default {
     if (req.method === "GET" && url.pathname === "/") {
       return html(landingPage(!!env.BROWSER));
     }
+    if (req.method === "GET" && url.pathname === "/icon.svg") {
+      return svg(WEBHANDS_ICON);
+    }
     if (req.method === "GET" && url.pathname === "/info") {
       return json({
         service: "webhands",
@@ -180,6 +183,18 @@ function html(body: string, status = 200): Response {
   });
 }
 
+function svg(body: string): Response {
+  return new Response(body, {
+    headers: {
+      "content-type": "image/svg+xml",
+      "cache-control": "public, max-age=86400",
+    },
+  });
+}
+
+const WEBHANDS_ICON =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#22d3ee"/><path d="M16 7.5l2.4 6.1 6.1 2.4-6.1 2.4-2.4 6.1-2.4-6.1L7.5 16l6.1-2.4z" fill="#08080a"/></svg>';
+
 function landingPage(browserBound: boolean): string {
   return `<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -244,6 +259,16 @@ function landingPage(browserBound: boolean): string {
     <pre id="out" class="out"></pre>
     <img id="shot" alt="" />
   </div>
+  <section class="suite-block">
+    <div><span class="card-head">Agent suite</span><h2>Browser work is one part of the operating layer.</h2></div>
+    <div class="suite-links">
+      <a class="suite-link" href="https://greenlite.aashinyraa.workers.dev"><img src="https://greenlite.aashinyraa.workers.dev/favicon.svg" alt="">Greenlite</a>
+      <a class="suite-link" href="https://resolvd.aashinyraa.workers.dev"><img src="https://resolvd.aashinyraa.workers.dev/icon.svg" alt="">Resolvd</a>
+      <a class="suite-link" href="https://tracecase.aashinyraa.workers.dev"><img src="https://tracecase.aashinyraa.workers.dev/icon.svg" alt="">Tracecase</a>
+      <a class="suite-link" href="https://bridgekit.aashinyraa.workers.dev"><img src="https://bridgekit.aashinyraa.workers.dev/icon.svg" alt="">Bridgekit</a>
+      <a class="suite-link" href="https://agentpostmortem.com"><img src="https://agentpostmortem.com/icon" alt="">AgentPostmortem</a>
+    </div>
+  </section>
   <footer>Real browser · screenshot proof · gated writes · <a href="/info">/info</a></footer>
   <script>
     async function wh(){
@@ -313,6 +338,12 @@ button:hover{opacity:.9}
 .out:empty{display:none}
 #shot{display:block;max-width:100%;margin-top:12px;border-radius:10px;border:1px solid #26262e}
 #shot:not([src]){display:none}
+.suite-block{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:24px;border-top:1px solid rgba(255,255,255,.08);padding-top:22px}
+.suite-block h2{font-size:17px;line-height:1.35}
+.suite-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+.suite-link{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:10px;padding:7px 9px;color:#9aa0ad;font-size:11px;font-weight:600;transition:.15s}
+.suite-link:hover{border-color:rgba(34,211,238,.4);color:#ededf2}
+.suite-link img{width:20px;height:20px;border-radius:6px;object-fit:cover}
 .runtag{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:#22d3ee;background:rgba(34,211,238,.12);border-radius:999px;padding:2px 8px;margin-left:8px;vertical-align:middle}
 .runtag i{width:6px;height:6px;border-radius:50%;background:#22d3ee;animation:blink 1.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
@@ -357,6 +388,8 @@ button:hover{opacity:.9}
   h1{font-size:42px;max-width:none}
   .lede{font-size:15.5px}
   .proof-grid,.panel-grid{grid-template-columns:1fr}
+  .suite-block{align-items:flex-start;flex-direction:column}
+  .suite-links{justify-content:flex-start}
   .card,.mini-card{padding:16px;border-radius:16px}
   .input-row input{min-width:0;width:100%}
 }
