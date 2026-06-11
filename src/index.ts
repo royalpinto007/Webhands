@@ -193,35 +193,50 @@ function landingPage(browserBound: boolean): string {
     <div class="logo"><span class="mark">✦</span> Webhands</div>
     <span class="status"><i></i> ${browserBound ? "browser live" : "dry mode"}</span>
   </header>
-  <span class="eyebrow">computer-use</span>
-  <h1>No API? <br>Now there's an agent.</h1>
-  <p class="lede">Webhands drives the dashboards that have no usable API, TikTok Shop seller center, supplier and 3PL portals, in a real headless browser. It logs in, navigates, returns clean structured data with a screenshot, and refuses any write until you confirm it.</p>
-  <div class="card">
-    <div class="card-head">Live capture <span class="runtag"><i></i> scanning</span></div>
-    <div class="browser">
-      <div class="bbar"><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="burl">seller.example.com/orders</span></div>
-      <div class="bbody">
-        <div class="brow"></div><div class="brow s"></div><div class="brow"></div><div class="brow s"></div><div class="brow"></div><div class="brow s"></div>
-        <div class="scan"></div>
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">computer-use</span>
+      <h1>No API? Put an agent in the browser.</h1>
+      <p class="lede">Webhands drives dashboards that have no usable API, from seller centers to supplier and 3PL portals. It logs in, navigates, returns structured data with screenshot proof, and refuses writes until you confirm.</p>
+      <div class="actions">
+        <button onclick="wh()">Run live scrape</button>
+        <a class="ghost" href="/info">View runtime info</a>
       </div>
     </div>
-  </div>
-  <div class="card wide">
-    <div class="card-head">Generate a recipe with AI</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <input id="rgin" onkeydown="if(event.key==='Enter')rgen()" placeholder="Describe what to scrape, e.g. this week orders" style="flex:1;min-width:200px;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;color:#ededf2;font:inherit;font-size:13px"/>
-      <button onclick="rgen()">Generate</button>
+    <div class="card hero-card">
+      <div class="card-head">Live capture <span class="runtag"><i></i> scanning</span></div>
+      <div class="browser">
+        <div class="bbar"><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="burl">seller.example.com/orders</span></div>
+        <div class="bbody">
+          <div class="brow"></div><div class="brow s"></div><div class="brow"></div><div class="brow s"></div><div class="brow"></div><div class="brow s"></div>
+          <div class="scan"></div>
+        </div>
+      </div>
     </div>
-    <pre id="rgout" class="out"></pre>
-  </div>
-  <div class="card wide">
-    <div class="card-head">Run a recipe</div>
-    <pre>curl $URL/run \\
+  </section>
+  <section class="proof-grid">
+    <div class="mini-card"><span>01</span><strong>Real browser runs</strong><p>Operate the exact portal a human would use, with the same screens and flows.</p></div>
+    <div class="mini-card"><span>02</span><strong>Structured extraction</strong><p>Turn messy pages into predictable JSON with traceable screenshot evidence.</p></div>
+    <div class="mini-card"><span>03</span><strong>Confirmed writes</strong><p>Keep destructive actions behind explicit human approval and clear audit logs.</p></div>
+  </section>
+  <section class="panel-grid">
+    <div class="card wide">
+      <div class="card-head">Generate a recipe with AI</div>
+      <div class="input-row">
+        <input id="rgin" onkeydown="if(event.key==='Enter')rgen()" placeholder="Describe what to scrape, e.g. this week orders"/>
+        <button onclick="rgen()">Generate</button>
+      </div>
+      <pre id="rgout" class="out"></pre>
+    </div>
+    <div class="card wide">
+      <div class="card-head">Run a recipe</div>
+      <pre>curl $URL/run \\
   -H "x-webhands-token: &lt;token&gt;" \\
   -H "content-type: application/json" \\
   -d '{"recipe":{"url":"https://seller.example.com/orders",
        "extract":{"prompt":"orders as JSON [{id,total,status}]"}}}'</pre>
-  </div>
+    </div>
+  </section>
   <div class="card wide">
     <div class="card-head">Try it live</div>
     <button onclick="wh()">▶ Run a live scrape</button>
@@ -255,20 +270,34 @@ function landingPage(browserBound: boolean): string {
 const LANDING_CSS = `
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#08080a;color:#ededf2;font:15px/1.65 'Inter',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
-.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 55% at 70% -10%,rgba(6,182,212,.20),transparent 60%),radial-gradient(ellipse 50% 40% at 5% 5%,rgba(34,211,238,.10),transparent 55%)}
-main{position:relative;max-width:1000px;margin:0 auto;padding:36px 24px 64px;z-index:1}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
+.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 55% at 70% -10%,rgba(6,182,212,.20),transparent 60%),radial-gradient(ellipse 50% 40% at 5% 5%,rgba(99,102,241,.12),transparent 55%),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:auto,auto,48px 48px,48px 48px}
+main{position:relative;max-width:1120px;margin:0 auto;padding:36px 24px 64px;z-index:1}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:42px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
 .mark{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:800}
 .status{display:inline-flex;align-items:center;gap:7px;border:1px solid #26262e;background:#111114;border-radius:999px;padding:5px 11px;font-size:11px;color:#8b8b96}
 .status i{width:7px;height:7px;border-radius:50%;background:#3fb950;box-shadow:0 0 8px #3fb950}
 .eyebrow{display:inline-block;border:1px solid #26262e;background:#111114;border-radius:999px;padding:4px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#8b8b96}
-h1{font-size:56px;line-height:1.02;letter-spacing:-.035em;margin:18px 0 16px;font-weight:800;max-width:800px;background:linear-gradient(120deg,#fff,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{color:#8b8b96;max-width:580px;font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
-@media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+h1{font-size:56px;line-height:1.02;letter-spacing:-.035em;margin:18px 0 16px;font-weight:800;max-width:760px;background:linear-gradient(120deg,#fff,#a5f3fc 55%,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:#9aa0ad;max-width:610px;font-size:16.5px}
+.hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(340px,.98fr);gap:22px;align-items:stretch}
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:360px;padding:10px 0}
+.actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:24px}
+.ghost{display:inline-flex;align-items:center;justify-content:center;min-height:43px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);border-radius:10px;padding:9px 14px;color:#ededf2;font-size:13px;font-weight:700}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.mini-card{border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.035);border-radius:16px;padding:16px}
+.mini-card span{display:inline-flex;margin-bottom:10px;color:#22d3ee;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.mini-card strong{display:block;font-size:14px;margin-bottom:5px}
+.mini-card p{color:#9aa0ad;font-size:12.5px;line-height:1.5}
+.panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.input-row{display:flex;gap:8px;flex-wrap:wrap}
+.input-row input{flex:1;min-width:220px;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;color:#ededf2;font:inherit;font-size:13px}
 .card{border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(17,20,24,.9),rgba(17,17,20,.5));backdrop-filter:blur(12px);border-radius:20px;padding:20px;box-shadow:0 1px 0 0 rgba(255,255,255,.04) inset,0 16px 50px -22px rgba(0,0,0,.7);transition:.2s}.card:hover{border-color:rgba(34,211,238,.35);transform:translateY(-2px)}
 .card.wide{margin-top:12px}
+.panel-grid .card,.hero .card{margin-top:0}
+.hero-card{display:flex;min-height:360px;flex-direction:column}
+.hero-card .browser{flex:1}
+.hero-card .bbody{min-height:260px}
 .card-head{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#8b8b96;margin-bottom:12px}
 .n{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#08080a;color:#22d3ee;font-weight:700;font-size:13px;margin-bottom:10px}
 .t{font-weight:600;margin-bottom:4px;font-size:14px}
@@ -319,6 +348,27 @@ button:hover{opacity:.9}
 .chatform{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.08)}
 .chatform input{flex:1;min-width:0;background:#08080a;border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:8px 10px;color:#ededf2;font:inherit;font-size:13px}
 .chatform button{border:none;border-radius:9px;padding:0 13px;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#08080a;font-weight:700;cursor:pointer}
+@media(max-width:860px){
+  main{padding:28px 16px 56px}
+  header{margin-bottom:30px}
+  .hero{grid-template-columns:1fr;gap:14px}
+  .hero-copy,.hero-card{min-height:auto}
+  .hero-card .bbody{min-height:190px}
+  h1{font-size:42px;max-width:none}
+  .lede{font-size:15.5px}
+  .proof-grid,.panel-grid{grid-template-columns:1fr}
+  .card,.mini-card{padding:16px;border-radius:16px}
+  .input-row input{min-width:0;width:100%}
+}
+@media(max-width:520px){
+  header{align-items:flex-start;gap:12px;flex-direction:column}
+  h1{font-size:34px}
+  .actions,.actions button,.ghost{width:100%}
+  .ghost{text-align:center}
+  .burl{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chatbtn{right:14px;bottom:14px}
+  .chatbox{right:12px;bottom:74px;width:calc(100vw - 24px);height:min(440px,70vh)}
+}
 @media (prefers-color-scheme: light){
   body{background:#fafafc;color:#12141b}
   .status,.eyebrow,.card{background:#fff;border-color:#e2e4e9}
