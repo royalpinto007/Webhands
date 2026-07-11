@@ -151,19 +151,29 @@ async function aiChat(req: Request, env: Env): Promise<Response> {
   if (!prompt) return json({ error: "prompt required" }, 400);
   const fixed = fixedAiReply(prompt);
   if (fixed) return json({ reply: fixed });
-  if (!env.AI_GATEWAY_SECRET) return json({ error: "AI not configured" }, 503);
+  if (!env.GROQ_API_KEY) return json({ error: "AI not configured" }, 503);
   const outputMax = Math.min(Math.max(max ?? 140, 32), 220);
   try {
-    const r = await fetch("https://n8n.agentpostmortem.com/webhook/ai-gw", {
+    const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-ai-secret": env.AI_GATEWAY_SECRET,
+        authorization: `Bearer ${env.GROQ_API_KEY}`,
       },
-      body: JSON.stringify({ system: AI_SYSTEM, prompt: String(prompt).slice(0, 2000), max: outputMax }),
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: AI_SYSTEM },
+          { role: "user", content: String(prompt).slice(0, 2000) },
+        ],
+        max_tokens: outputMax,
+      }),
     });
-    const d = (await r.json()) as { reply?: string; error?: string };
-    return json({ reply: cleanAiReply(d.reply), error: d.error });
+    const d = (await r.json()) as {
+      choices?: { message?: { content?: string } }[];
+      error?: { message?: string };
+    };
+    return json({ reply: cleanAiReply(d.choices?.[0]?.message?.content), error: d.error?.message });
   } catch {
     return json({ error: "AI upstream unreachable" }, 502);
   }
