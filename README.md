@@ -5,6 +5,12 @@ the real dashboard (TikTok Shop seller center, supplier/3PL portals) via
 Cloudflare Browser Rendering, returns clean structured data, and refuses any
 write action unless you explicitly confirm it.
 
+## Demo
+
+[![Webhands demo](assets/demo-thumb.png)](assets/demo.mp4)
+
+▶ [Watch the demo](assets/demo.mp4) · Live: https://webhands.agentpostmortem.com
+
 "There's no API" becomes "there's an agent."
 
 ## How it works
